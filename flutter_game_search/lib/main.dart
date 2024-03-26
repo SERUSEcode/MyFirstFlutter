@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,9 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('assets/sample.json');
     final data = await json.decode(response);
+
     setState(() {
       print("hi");
-      _items = data["items"];
+      _items = data["games"];
       print(".. number of items ${_items.length}");
     });
   }
@@ -88,13 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: _items.length,
           itemBuilder: (context, index) {
             return Card(
-              key: ValueKey(_items[index]["id"]),
+              key: ValueKey(_items[index]["name"]),
               margin: const EdgeInsets.all(10),
               color: Colors.amber.shade100,
               child: ListTile(
-                leading: Text(_items[index]["id"]),
-                title: Text(_items[index]["name"]),
-                subtitle: Text(_items[index]["description"]),
+                leading: Text(_items[index]["name"]),
+                title: Text(_items[index]["release_date"]),
+                subtitle: Text(_items[index]["short_description"]),
               ),
             );
           },
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           readJson();
         },
-        child: Center(child: Text("Load Json")))
+        child: const Center(child: Text("Load Json")))
       ],),
     );
   }
